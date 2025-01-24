@@ -1,37 +1,25 @@
 This is a calculator that calculate equations 
 with any grade.
 
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LoginPage from './components/LoginPage';
+import UserPage from './components/UserPage';
+import LibrarianPage from './components/LibrarianPage';
+import SearchAIPage from './components/SearchAIPage';
 
-const SearchAIPage = () => {
-  const [query, setQuery] = useState('');
-  const [response, setResponse] = useState('');
-
-  const askAI = () => {
-    // Simulate AI response
-    const suggestions = {
-      thriller: 'The Girl with the Dragon Tattoo',
-      romance: 'Pride and Prejudice',
-      fantasy: 'The Hobbit',
-    };
-
-    const genre = query.toLowerCase();
-    setResponse(suggestions[genre] || 'Sorry, I don’t have suggestions for that.');
-  };
-
+const App = () => {
   return (
-    <div>
-      <h2>Chat with AI</h2>
-      <input
-        type="text"
-        placeholder="Ask about books (e.g., 'thriller')"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <button onClick={askAI}>Ask AI</button>
-      <p>{response}</p>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/user" element={<UserPage />} />
+        <Route path="/librarian" element={<LibrarianPage />} />
+        <Route path="/search-ai" element={<SearchAIPage />} />
+        <Route path="*" element={<h2>Page Not Found</h2>} />
+      </Routes>
+    </Router>
   );
 };
 
-export default SearchAIPage;
+export default App;
