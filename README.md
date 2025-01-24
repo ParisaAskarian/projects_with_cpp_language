@@ -3,58 +3,52 @@ with any grade.
 
 import React, { useState } from 'react';
 
-const UserPage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const books = [
+const LibrarianPage = () => {
+  const [books, setBooks] = useState([
     { id: 1, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald' },
     { id: 2, title: '1984', author: 'George Orwell' },
-    { id: 3, title: 'To Kill a Mockingbird', author: 'Harper Lee' },
-  ];
+  ]);
+  const [newBook, setNewBook] = useState({ title: '', author: '' });
 
-  const user = {
-    name: 'John Doe',
-    email: 'john@example.com',
-    borrowedBooks: ['1984'],
-    reservedBooks: ['The Great Gatsby'],
-    fines: 10,
+  const addBook = () => {
+    if (newBook.title && newBook.author) {
+      setBooks([...books, { id: books.length + 1, ...newBook }]);
+      setNewBook({ title: '', author: '' });
+    }
   };
 
-  const filteredBooks = books.filter((book) =>
-    book.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const removeBook = (id) => {
+    setBooks(books.filter((book) => book.id !== id));
+  };
 
   return (
     <div>
-      <h2>User Dashboard</h2>
-      <p>Name: {user.name}</p>
-      <p>Email: {user.email}</p>
-      <p>Fines: ${user.fines}</p>
-      <h3>Borrowed Books</h3>
-      <ul>
-        {user.borrowedBooks.map((book) => (
-          <li key={book}>{book}</li>
-        ))}
-      </ul>
-      <h3>Reserved Books</h3>
-      <ul>
-        {user.reservedBooks.map((book) => (
-          <li key={book}>{book}</li>
-        ))}
-      </ul>
-      <h3>Search for a Book</h3>
+      <h2>Librarian Dashboard</h2>
+      <h3>Add a New Book</h3>
       <input
         type="text"
-        placeholder="Search by title"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Title"
+        value={newBook.title}
+        onChange={(e) => setNewBook({ ...newBook, title: e.target.value })}
       />
+      <input
+        type="text"
+        placeholder="Author"
+        value={newBook.author}
+        onChange={(e) => setNewBook({ ...newBook, author: e.target.value })}
+      />
+      <button onClick={addBook}>Add Book</button>
+      <h3>Books List</h3>
       <ul>
-        {filteredBooks.map((book) => (
-          <li key={book.id}>{book.title} by {book.author}</li>
+        {books.map((book) => (
+          <li key={book.id}>
+            {book.title} by {book.author}{' '}
+            <button onClick={() => removeBook(book.id)}>Remove</button>
+          </li>
         ))}
       </ul>
     </div>
   );
 };
 
-export default UserPage;
+export default LibrarianPage;
