@@ -3,52 +3,35 @@ with any grade.
 
 import React, { useState } from 'react';
 
-const LibrarianPage = () => {
-  const [books, setBooks] = useState([
-    { id: 1, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald' },
-    { id: 2, title: '1984', author: 'George Orwell' },
-  ]);
-  const [newBook, setNewBook] = useState({ title: '', author: '' });
+const SearchAIPage = () => {
+  const [query, setQuery] = useState('');
+  const [response, setResponse] = useState('');
 
-  const addBook = () => {
-    if (newBook.title && newBook.author) {
-      setBooks([...books, { id: books.length + 1, ...newBook }]);
-      setNewBook({ title: '', author: '' });
-    }
-  };
+  const askAI = () => {
+    // Simulate AI response
+    const suggestions = {
+      thriller: 'The Girl with the Dragon Tattoo',
+      romance: 'Pride and Prejudice',
+      fantasy: 'The Hobbit',
+    };
 
-  const removeBook = (id) => {
-    setBooks(books.filter((book) => book.id !== id));
+    const genre = query.toLowerCase();
+    setResponse(suggestions[genre] || 'Sorry, I don’t have suggestions for that.');
   };
 
   return (
     <div>
-      <h2>Librarian Dashboard</h2>
-      <h3>Add a New Book</h3>
+      <h2>Chat with AI</h2>
       <input
         type="text"
-        placeholder="Title"
-        value={newBook.title}
-        onChange={(e) => setNewBook({ ...newBook, title: e.target.value })}
+        placeholder="Ask about books (e.g., 'thriller')"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
       />
-      <input
-        type="text"
-        placeholder="Author"
-        value={newBook.author}
-        onChange={(e) => setNewBook({ ...newBook, author: e.target.value })}
-      />
-      <button onClick={addBook}>Add Book</button>
-      <h3>Books List</h3>
-      <ul>
-        {books.map((book) => (
-          <li key={book.id}>
-            {book.title} by {book.author}{' '}
-            <button onClick={() => removeBook(book.id)}>Remove</button>
-          </li>
-        ))}
-      </ul>
+      <button onClick={askAI}>Ask AI</button>
+      <p>{response}</p>
     </div>
   );
 };
 
-export default LibrarianPage;
+export default SearchAIPage;
