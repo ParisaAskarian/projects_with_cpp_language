@@ -2,36 +2,37 @@ This is a calculator that calculate equations
 with any grade.
 
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const SearchAIPage = () => {
-  const [query, setQuery] = useState('');
-  const [response, setResponse] = useState('');
+const LoginPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleChat = async () => {
-    const res = await axios.post('https://api.openai.com/v1/completions', {
-      prompt: query,
-      model: 'text-davinci-003',
-      max_tokens: 100,
-    }, {
-      headers: {
-        Authorization: `Bearer YOUR_OPENAI_API_KEY`,
-      },
-    });
-    setResponse(res.data.choices[0].text);
+  const handleLogin = () => {
+    if (email === 'user@example.com') navigate('/user');
+    else if (email === 'librarian@example.com') navigate('/librarian');
+    else alert('Invalid credentials');
   };
 
   return (
     <div>
-      <h2>Chat with AI</h2>
-      <textarea
-        placeholder="Ask about books..."
-        onChange={(e) => setQuery(e.target.value)}
+      <h2>Login Page</h2>
+      <input
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
-      <button onClick={handleChat}>Send</button>
-      <p>{response}</p>
+      <input
+        type="password"
+        placeholder="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={handleLogin}>Login</button>
     </div>
   );
 };
 
-export default SearchAIPage;
+export default LoginPage;
