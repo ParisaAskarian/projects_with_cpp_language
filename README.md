@@ -1,3 +1,1 @@
-This is a calculator that calculate equations 
-with any grade.
-
+make it better soon
